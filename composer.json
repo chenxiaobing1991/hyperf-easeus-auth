@@ -22,7 +22,7 @@
   "require": {
     "php": ">=8.0",
     "cxb1991/guzzle_https": "dev-master",
-    "hyperf/config": "~3.0.0",
+    "hyperf/config": "~3.0.0"
   },
   "autoload": {
     "psr-4": {
