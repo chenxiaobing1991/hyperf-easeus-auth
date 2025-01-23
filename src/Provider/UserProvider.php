@@ -13,6 +13,7 @@ use Cxb\Hyperf\Easeus\Auth\AbstractProvider;
  */
 class UserProvider extends AbstractProvider
 {
+    
     /**
      * 获取员工账号
      * @param $id
@@ -26,6 +27,7 @@ class UserProvider extends AbstractProvider
         }
         return null;
     }
+    
 
     /**
      * 员工列表
@@ -33,6 +35,6 @@ class UserProvider extends AbstractProvider
      */
     public function list(array $map = [])
     {
-        return $this->request('/api/v1/base/user/list','get',$map);
+        return $this->request('/api/v1/base/user/list?'.http_build_query($map),'get');
     }
 }
