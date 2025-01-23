@@ -13,7 +13,7 @@ final class Config
 
     public function __construct(array $config = [])
     {
-        isset($config['uri']) && $this->uri = $config['uri'];
+        isset($config['uri']) && $this->uri = (string)$config['uri'];
     }
 
     /**
@@ -22,6 +22,6 @@ final class Config
      */
     public function getUri(): string
     {
-        return rtrim($this->uri,'/');
+        return rtrim($this->uri, '/');
     }
 }

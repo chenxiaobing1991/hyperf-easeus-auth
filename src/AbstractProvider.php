@@ -3,9 +3,9 @@
 
 namespace Cxb\Hyperf\Easeus\Auth;
 
+use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
 use Cxb\Hyperf\Easeus\Auth\Exception\Exception;
 use Cxb\Hyperf\Easeus\Auth\Exception\HttpException;
-use Cxb\Hyperf\Easeus\Auth\Provider\AuthToken;
 use Cxb\GuzzleHttp\ResponseClient;
 use Psr\Container\ContainerInterface;
 use Cxb\GuzzleHttp\RequestClient;
@@ -18,16 +18,9 @@ use Cxb\GuzzleHttp\ClientFactory;
  */
 abstract class AbstractProvider
 {
-    use AuthToken;
-
-    public function __construct(protected ContainerInterface $container, protected Application $app, protected Config $config)
+    public function __construct(protected GuardManager $app, protected Config $config,protected DriverManager $driver)
     {
 
-    }
-
-    public function getContainer(): ContainerInterface
-    {
-        return $this->container;
     }
 
     /**
@@ -39,7 +32,8 @@ abstract class AbstractProvider
      */
     protected function request(string $uri, $method, $params = null, array $header = [])
     {
-        $header = array_merge(['Authorization' => 'Bearer ' . $this->token()], $header);//封装token
+        $header = array_merge(['Authorization' => 'Bearer ' . $this->driver->token()], $header);//封装token
+        print_r($method);
         $request = new RequestClient($method, $this->config->getUri() . $uri, is_array($params) ? json_encode($params, true) : $params, $header);
         return $this->handleResponse(ClientFactory::send($request));
     }
