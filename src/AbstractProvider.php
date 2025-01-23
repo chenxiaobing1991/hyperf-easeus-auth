@@ -33,7 +33,6 @@ abstract class AbstractProvider
     protected function request(string $uri, $method, $params = null, array $header = [])
     {
         $header = array_merge(['Authorization' => 'Bearer ' . $this->driver->token()], $header);//封装token
-        print_r($method);
         $request = new RequestClient($method, $this->config->getUri() . $uri, is_array($params) ? json_encode($params, true) : $params, $header);
         return $this->handleResponse(ClientFactory::send($request));
     }
