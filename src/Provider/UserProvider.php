@@ -20,12 +20,7 @@ class UserProvider extends AbstractProvider
      */
     public function info($id)
     {
-        $data = $this->list(['limit' => -1]);
-        foreach ($data['list']??[] as $info) {
-            if (($info['user_id']??'') == $id)
-                return $info;
-        }
-        return null;
+        return $this->request('/api/v1/base/user/info?'.http_build_query(['id'=>$id]),'get');
     }
     
 
