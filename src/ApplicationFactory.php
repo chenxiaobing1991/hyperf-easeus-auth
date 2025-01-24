@@ -11,10 +11,10 @@ use Hyperf\Contract\ConfigInterface;
  * Class ApplicationFactory
  * @package App\Component\Admin\src
  */
-final class ApplicationFactory
+class ApplicationFactory
 {
     private string $default = 'default';//默认引擎名
-    private array $config;
+    protected array $config;
     protected array $guards = [];//实例化引擎
     protected array $drivers=[];
     /**
@@ -31,7 +31,7 @@ final class ApplicationFactory
      * 获取引擎
      * @return array
      */
-    public function guards():array{
+   final public function guards():array{
         return $this->guards;
     }
 
@@ -39,7 +39,7 @@ final class ApplicationFactory
      * @param string|null $name
      * @return GuardManager|mixed
      */
-    public function guard(string $name=null){
+    final public function guard(string $name=null){
         $name = $name ?? $this->defaultGuard();
         if(!isset($this->config['guards'][$name]))
             throw new Exception("Does not support this guard: {$name}");
@@ -55,7 +55,7 @@ final class ApplicationFactory
      * @param string $name
      * @param GuardManager $guard
      */
-    public function register(string $name,GuardManager $guard){
+    final public function register(string $name,GuardManager $guard){
         $this->guards[$name]=$guard;
     }
 
