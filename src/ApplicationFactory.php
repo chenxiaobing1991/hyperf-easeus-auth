@@ -16,7 +16,8 @@ class ApplicationFactory
     private string $default = 'default';//默认引擎名
     protected array $config;
     protected array $guards = [];//实例化引擎
-    protected array $drivers=[];
+    protected bool $enable = false;
+
     /**
      *
      * ApplicationFactory constructor.
@@ -25,29 +26,42 @@ class ApplicationFactory
     public function __construct(ConfigInterface $config)
     {
         $this->config = $config->get('auth');
+        isset($this->config['enable']) && $this->enable = $this->config['enable'];
     }
 
     /**
-     * 获取引擎
+     * 获取所有引擎
      * @return array
      */
-   final public function guards():array{
+    public function guards(): array
+    {
         return $this->guards;
     }
+
+    /**
+     * @return array|mixed
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
 
     /**
      * @param string|null $name
      * @return GuardManager|mixed
      */
-    final public function guard(string $name=null){
+    public function guard(string $name = null)
+    {
+        if (!$this->enable)
+            throw new Exception("Does  support this disabled");
         $name = $name ?? $this->defaultGuard();
-        if(!isset($this->config['guards'][$name]))
-            throw new Exception("Does not support this guard: {$name}");
-        if(isset($this->guards[$name]))
+        if (isset($this->guards[$name]))
             return $this->guards[$name];
-        $config = new Config($this->config['guards'][$name]);
-        $driver=$this->driver($name);
-        return $this->guards[$name]=make(GuardManager::class,compact('driver', 'config'));
+        if (!isset($this->getConfig()['guards'][$name]))
+            throw new Exception("Does not support this guard: {$name}");
+        $config = new Config($this->getConfig()['guards'][$name]);
+        return $this->guards[$name] = make(GuardManager::class, ['config' => $config]);
     }
 
     /**
@@ -55,32 +69,17 @@ class ApplicationFactory
      * @param string $name
      * @param GuardManager $guard
      */
-    final public function register(string $name,GuardManager $guard){
-        $this->guards[$name]=$guard;
+    public function register(string $name, GuardManager $guard)
+    {
+        $this->guards[$name] = $guard;
     }
 
     /**
-     * @param string|null $name
-     */
-    public function driver(string $name=null){
-        $name = $name ?? $this->defaultDriver();
-        if(isset($this->drivers[$name]))
-            return $this->drivers[$name];
-        return $this->drivers[$name] = make(DriverManager::class,['config'=>$this->config['drivers'][$name]??[]]);
-    }
-    /**
-     * 默认引擎
+     *
      * @return string
      */
     public function defaultGuard(): string
     {
-        return $this->config['default']['guard'] ?? $this->default;
-    }
-
-    /**
-     * @return string
-     */
-    public function defaultDriver():string{
-        return $this->config['default']['driver'] ?? $this->default;
+        return $this->getConfig()['guard'] ?? $this->default;
     }
 }

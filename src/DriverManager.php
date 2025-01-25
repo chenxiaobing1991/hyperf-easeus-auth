@@ -15,9 +15,9 @@ class DriverManager
     private $driver = DefaultDriver::class;
     private $model;
 
-    public function __construct(array $config = [])
+    public function __construct($driver=null)
     {
-        isset($config['driver']) && $this->driver = $config['driver'];
+        $driver!==null && $this->driver = $driver;
         $this->model = make($this->driver);
     }
 

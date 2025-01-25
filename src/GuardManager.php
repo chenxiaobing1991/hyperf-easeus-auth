@@ -20,10 +20,10 @@ final class GuardManager
         'user' => UserProvider::class
     ];
     protected $providers = [];
-
-    public function __construct(private DriverManager $driver, private Config $config)
+    private $driver;
+    public function __construct(private Config $config)
     {
-
+        $this->driver=make(DriverManager::class,['driver'=>$this->config->getDriver()]);
     }
 
     /**
@@ -31,12 +31,11 @@ final class GuardManager
      */
     public function get(string $name)
     {
-
         if (isset($this->providers[$name]))
             return $this->providers[$name];
         if (!isset($this->alias[$name]))
             throw new \Exception('不存在的引擎');
-        return $this->providers[$name] = make($this->alias[$name], ['app' => $this, 'config' => $this->config, 'driver' => $this->driver]);
+        return $this->providers[$name] = make($this->alias[$name], ['app' => $this, 'config' => $this->config, 'driver' =>$this->driver]);
     }
 
     /**
