@@ -1,18 +1,16 @@
 <?php
 
+use function Hyperf\Support\env;
+
 return [
-    'default' => [
-        'guard' => 'default',
-        'driver' => 'default',
-    ],
+    'enable' => (bool)env('AUTH_SSO_ENABLED', true),
+    'guard' => env('AUTH_SSO_GUARD', 'default'),
     'guards' => [
         'default' => [
-            'uri' => 'http://192.168.0.9:8089',//地址
-        ]
-    ],
-    'drivers' => [
-        'default' => [
             'driver' => \App\Component\Admin\IdentityManager::class,
-        ]
-    ]
+            'address' => env('AUTH_SSO_ADDRESS', 'http://127.0.0.1'),
+//            'username' => 'nacos',
+//            'password' => 'nacos',
+        ],
+    ],
 ];
