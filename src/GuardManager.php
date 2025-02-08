@@ -7,7 +7,7 @@ namespace Cxb\Hyperf\Easeus\Auth;
 use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
 use Cxb\Hyperf\Easeus\Auth\Provider\MyProvider;
 use Cxb\Hyperf\Easeus\Auth\Provider\UserProvider;
-
+use function Hyperf\Support\make;
 /**
  * 中间件调度引擎
  * Class Application

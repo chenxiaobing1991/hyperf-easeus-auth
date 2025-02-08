@@ -6,7 +6,7 @@ namespace Cxb\Hyperf\Easeus\Auth;
 
 use Cxb\Hyperf\Easeus\Auth\Exception\Exception;
 use Hyperf\Contract\ConfigInterface;
-
+use function Hyperf\Support\make;
 /**
  * Class ApplicationFactory
  * @package App\Component\Admin\src
@@ -25,7 +25,8 @@ class ApplicationFactory
      */
     public function __construct(ConfigInterface $config)
     {
-        $this->config = $config->get('auth');
+        $values=$config->get('auth');
+        $this->config=isset($values)&&is_array($values)?$values:[];
         isset($this->config['enable']) && $this->enable = $this->config['enable'];
     }
 

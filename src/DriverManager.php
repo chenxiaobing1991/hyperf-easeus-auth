@@ -5,7 +5,7 @@ namespace Cxb\Hyperf\Easeus\Auth;
 use Cxb\Hyperf\Easeus\Auth\Driver\DefaultDriver;
 use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
 use Cxb\Hyperf\Easeus\Auth\Exception\Exception;
-
+use function Hyperf\Support\make;
 /**
  * Class DriverManager
  * @package Cxb\Hyperf\Easeus\Auth
@@ -27,7 +27,7 @@ class DriverManager
     public function token()
     {
         if (!$this->model instanceof DriverInterface)
-            throw new Exception("Does not support this driver: {$name}");
+            throw new Exception("Does not support this driver: {$this->driver}");
         return $this->model->parseToken();
     }
 }
