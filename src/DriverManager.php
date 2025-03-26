@@ -6,28 +6,33 @@ use Cxb\Hyperf\Easeus\Auth\Driver\DefaultDriver;
 use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
 use Cxb\Hyperf\Easeus\Auth\Exception\Exception;
 use function Hyperf\Support\make;
+
 /**
  * Class DriverManager
  * @package Cxb\Hyperf\Easeus\Auth
+ * @method parseToken()
+ * @method parseAppId()
+ * @method parseMenuCode()
  */
 class DriverManager
 {
     private $driver = DefaultDriver::class;
     private $model;
 
-    public function __construct($driver=null)
+    public function __construct($driver = null)
     {
-        $driver!==null && $this->driver = $driver;
+        $driver !== null && $this->driver = $driver;
         $this->model = make($this->driver);
     }
 
     /**
-     * @return string
+     * @param $method
+     * @param mixed ...$args
      */
-    public function token()
+    public function __call($method, ...$args)
     {
         if (!$this->model instanceof DriverInterface)
             throw new Exception("Does not support this driver: {$this->driver}");
-        return $this->model->parseToken();
+        return call_user_func([$this->model, $method], ...$args);
     }
 }

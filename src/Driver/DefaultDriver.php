@@ -28,4 +28,21 @@ class DefaultDriver implements DriverInterface
         }
         return null;
     }
+
+    /**
+     * @return string|null
+     */
+    public function parseAppId(): string
+    {
+        return (string)$this->request->header('app-id', '');
+    }
+
+    /**
+     * @return string
+     */
+    public function parseMenuCode(): string
+    {
+        return (string)$this->request->header('menu-code', '');
+    }
+
 }
