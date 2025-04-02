@@ -19,7 +19,7 @@ class DriverManager
     private $driver = DefaultDriver::class;
     private $model;
 
-    public function __construct($driver = null)
+    public function __construct()
     {
         $driver !== null && $this->driver = $driver;
         $this->model = make($this->driver);
@@ -27,9 +27,9 @@ class DriverManager
 
     /**
      * @param $method
-     * @param mixed ...$args
+     * @param mixed $args
      */
-    public function __call($method, ...$args)
+    public function __call($method, $args)
     {
         if (!$this->model instanceof DriverInterface)
             throw new Exception("Does not support this driver: {$this->driver}");

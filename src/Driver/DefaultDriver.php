@@ -45,4 +45,12 @@ class DefaultDriver implements DriverInterface
         return (string)$this->request->header('menu-code', '');
     }
 
+    /**
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+       return '';
+    }
+
 }

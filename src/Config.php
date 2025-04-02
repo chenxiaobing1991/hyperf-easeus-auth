@@ -5,6 +5,7 @@ namespace Cxb\Hyperf\Easeus\Auth;
 
 use Cxb\Hyperf\Easeus\Auth\Driver\DefaultDriver;
 use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
+use function Hyperf\Support\make;
 
 /**
  * Class Config
@@ -13,11 +14,12 @@ use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
 final class Config
 {
     private string $address;
-    private $driver=DefaultDriver::class;
+    private $driver;
+
     public function __construct(array $config = [])
     {
         isset($config['address']) && $this->address = (string)$config['address'];
-        isset($config['driver']) && $this->driver =$config['driver'];
+        $this->driver = isset($config['driver']) ? $config['driver'] : DefaultDriver::class;
     }
 
     /**
@@ -32,7 +34,8 @@ final class Config
     /**
      * @return mixed
      */
-    public function getDriver(){
-        return $this->driver;
+    public function driver(): DriverInterface
+    {
+        return make($this->driver);
     }
 }

@@ -18,7 +18,7 @@ use Cxb\GuzzleHttp\ClientFactory;
  */
 abstract class AbstractProvider
 {
-    public function __construct(protected GuardManager $app, protected Config $config,protected DriverManager $driver)
+    public function __construct(protected GuardManager $app, protected Config $config)
     {
 
     }
@@ -33,9 +33,10 @@ abstract class AbstractProvider
     protected function request(string $uri, $method, $params = null, array $header = [])
     {
         $header = array_merge([
-            'Authorization' => 'Bearer ' . $this->driver->parseToken(),
-            'app-id'=>$this->driver->parseAppId(),
-            'menu-code'=>$this->driver->parseMenuCode()
+            'Authorization' => 'Bearer ' . $this->config->driver()->parseToken(),
+            'app-id'=>$this->config->driver()->parseAppId(),
+            'menu-code'=>$this->config->driver()->parseMenuCode(),
+            'AccessToken'=>$this->config->driver()->getAccessToken()
         ], $header);//封装token
         $request = new RequestClient($method, $this->config->getAddress() . $uri, is_array($params) ? json_encode($params, true) : $params, $header);
         return $this->handleResponse(ClientFactory::send($request));

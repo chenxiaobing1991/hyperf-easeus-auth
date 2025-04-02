@@ -3,7 +3,6 @@
 use function Hyperf\Support\env;
 
 return [
-    'enable' => (bool)env('AUTH_SSO_ENABLED', true),
     'guard' => env('AUTH_SSO_GUARD', 'default'),
     'guards' => [
         'default' => [

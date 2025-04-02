@@ -7,6 +7,7 @@ namespace Cxb\Hyperf\Easeus\Auth;
 use Cxb\Hyperf\Easeus\Auth\Exception\Exception;
 use Hyperf\Contract\ConfigInterface;
 use function Hyperf\Support\make;
+
 /**
  * Class ApplicationFactory
  * @package App\Component\Admin\src
@@ -16,7 +17,6 @@ class ApplicationFactory
     private string $default = 'default';//默认引擎名
     protected array $config;
     protected array $guards = [];//实例化引擎
-    protected bool $enable = false;
 
     /**
      *
@@ -25,9 +25,8 @@ class ApplicationFactory
      */
     public function __construct(ConfigInterface $config)
     {
-        $values=$config->get('auth');
-        $this->config=isset($values)&&is_array($values)?$values:[];
-        isset($this->config['enable']) && $this->enable = $this->config['enable'];
+        $values = $config->get('auth');
+        $this->config = isset($values) && is_array($values) ? $values : [];
     }
 
     /**
@@ -42,7 +41,7 @@ class ApplicationFactory
     /**
      * @return array|mixed
      */
-    public function getConfig()
+    public function config()
     {
         return $this->config;
     }
@@ -54,14 +53,12 @@ class ApplicationFactory
      */
     public function guard(string $name = null)
     {
-        if (!$this->enable)
-            throw new Exception("Does  support this disabled");
         $name = $name ?? $this->defaultGuard();
         if (isset($this->guards[$name]))
             return $this->guards[$name];
-        if (!isset($this->getConfig()['guards'][$name]))
+        if (!isset($this->config()['guards'][$name]))
             throw new Exception("Does not support this guard: {$name}");
-        $config = new Config($this->getConfig()['guards'][$name]);
+        $config = new Config($this->config()['guards'][$name]);
         return $this->guards[$name] = make(GuardManager::class, ['config' => $config]);
     }
 
@@ -81,6 +78,6 @@ class ApplicationFactory
      */
     public function defaultGuard(): string
     {
-        return $this->getConfig()['guard'] ?? $this->default;
+        return $this->config['guard'] ?? $this->default;
     }
 }
