@@ -36,6 +36,6 @@ final class Config
      */
     public function driver(): DriverInterface
     {
-        return $this->driver;
+        return $this->driver instanceof DriverInterface ?$this->driver:make($this->driver);
     }
 }
