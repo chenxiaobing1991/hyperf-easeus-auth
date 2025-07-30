@@ -19,7 +19,7 @@ final class Config
     public function __construct(array $config = [])
     {
         isset($config['address']) && $this->address = (string)$config['address'];
-        $this->driver = isset($config['driver']) ? $config['driver'] : DefaultDriver::class;
+        $this->driver = isset($config['driver']) ? $config['driver'] : make(DefaultDriver::class);
     }
 
     /**
@@ -36,6 +36,6 @@ final class Config
      */
     public function driver(): DriverInterface
     {
-        return make($this->driver);
+        return $this->driver;
     }
 }
