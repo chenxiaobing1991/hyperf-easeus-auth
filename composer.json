@@ -1,5 +1,6 @@
 {
   "name": "cxb1991/hyperf-easeus-auth",
+  "version": "1.0.0",
   "description": "easeus  sso",
   "type": "library",
   "license": "MIT",
