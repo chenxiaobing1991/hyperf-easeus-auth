@@ -5,9 +5,12 @@ namespace Cxb\Hyperf\Easeus\Auth;
 
 
 use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
-use Cxb\Hyperf\Easeus\Auth\Provider\MyProvider;
-use Cxb\Hyperf\Easeus\Auth\Provider\UserProvider;
+use Cxb\Hyperf\Easeus\Auth\Provider\v2\MyDriver;
+use Cxb\Hyperf\Easeus\Auth\Driver\v2\UserDriver;
+use Cxb\Hyperf\Easeus\Auth\Provider\v2\PermissionDriver;
+use Cxb\Hyperf\Easeus\Auth\Provider\v2\RoleDriver;
 use function Hyperf\Support\make;
+
 /**
  * 中间件调度引擎
  * Class Application
@@ -16,10 +19,13 @@ use function Hyperf\Support\make;
 final class GuardManager
 {
     protected $alias = [
-        'self' => MyProvider::class,
-        'user' => UserProvider::class
+        'self' => MyDriver::class,
+        'user' => UserDriver::class,
+        'role' => RoleDriver::class,
+        'permission' => PermissionDriver::class
     ];
     protected $providers = [];
+
     public function __construct(private Config $config)
     {
     }
@@ -31,9 +37,10 @@ final class GuardManager
     {
         if (isset($this->providers[$name]))
             return $this->providers[$name];
-        if (!isset($this->alias[$name]))
+        $class_name = class_exists($name) ? $name : (isset($this->alias[$name]) ? $this->alias[$name] : null);
+        if (!$class_name)
             throw new \Exception('不存在的引擎');
-        return $this->providers[$name] = make($this->alias[$name], ['app' => $this, 'config' => $this->config]);
+        return $this->providers[$name] = make($class_name, ['app' => $this, 'config' => $this->config]);
     }
 
     /**

@@ -16,8 +16,17 @@ use Cxb\GuzzleHttp\ClientFactory;
  * Class AbstractProvider
  * @package App\Component\Admin\src
  */
-abstract class AbstractProvider
+abstract class AbstractDriver
 {
+    protected const STATUS_SUCCESS = 0;
+
+    protected const STATUS_ERROR = -1;
+
+    /**
+     * AbstractDriver constructor.
+     * @param GuardManager $app
+     * @param Config $config
+     */
     public function __construct(protected GuardManager $app, protected Config $config)
     {
 
@@ -32,12 +41,12 @@ abstract class AbstractProvider
      */
     protected function request(string $uri, $method, $params = null, array $header = [])
     {
+
         $header = array_merge([
             'Authorization' => 'Bearer ' . $this->config->driver()->parseToken(),
-            'app-id'=>$this->config->driver()->parseAppId(),
-            'menu-code'=>$this->config->driver()->parseMenuCode(),
-            'AccessToken'=>$this->config->driver()->getAccessToken()
-        ], $header);//封装token
+            'app-key' => $this->config->driver()->parseAppKey(),
+            'AccessToken' => $this->config->driver()->parseAccessToken()
+        ], $header);
         $request = new RequestClient($method, $this->config->getAddress() . $uri, is_array($params) ? json_encode($params, true) : $params, $header);
         return $this->handleResponse(ClientFactory::send($request));
     }
@@ -50,8 +59,8 @@ abstract class AbstractProvider
     {
         if ($response->statusCode != 200)
             throw new HttpException($response->statusCode, $response->error);
-        $body = json_decode($response->body,true);
-        if ($body['code'] != ListEnum::STATUS_SUCCESS)
+        $body = json_decode($response->body, true);
+        if ($body['code'] != self::STATUS_SUCCESS)
             throw new Exception($body['message'], (int)$body['code']);
         return $body['data'] ?? null;
     }

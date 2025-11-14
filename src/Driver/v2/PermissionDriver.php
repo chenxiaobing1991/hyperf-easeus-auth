@@ -1,0 +1,33 @@
+<?php
+
+
+namespace Cxb\Hyperf\Easeus\Auth\Provider\v2;
+
+
+use Cxb\Hyperf\Easeus\Auth\AbstractDriver;
+
+/**
+ * 权限模块
+ * Class PermissionDriver
+ * @package Cxb\Hyperf\Easeus\Auth\Provider\v2
+ */
+class PermissionDriver extends AbstractDriver
+{
+    /**
+     * 权限用户列表
+     * @param array $map
+     */
+    public function users(array $map = [])
+    {
+        return $this->request('/api/v2/permission/role-user/list', 'GET');
+    }
+
+    /**
+     * 权限菜单
+     * @return array
+     */
+    public function menus(): array
+    {
+        return $this->request('/api/v2/permission/menus', 'GET');
+    }
+}

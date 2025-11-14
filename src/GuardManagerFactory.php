@@ -12,9 +12,8 @@ use function Hyperf\Support\make;
  * Class ApplicationFactory
  * @package App\Component\Admin\src
  */
-class ApplicationFactory
+class GuardManagerFactory
 {
-    private string $default = 'default';//默认引擎名
     protected array $config;
     protected array $guards = [];//实例化引擎
 
@@ -78,6 +77,6 @@ class ApplicationFactory
      */
     public function defaultGuard(): string
     {
-        return $this->config['guard'] ?? $this->default;
+        return $this->config['guard'] ?? 'default';
     }
 }

@@ -9,14 +9,12 @@ use function Hyperf\Support\make;
 
 /**
  * Class Config
- * @package App\Component\Admin\src
+ * @package Cxb\Hyperf\Easeus\Auth
  */
 final class Config
 {
-    private string $address;
-    private $driver;
 
-    public function __construct(array $config = [])
+    public function __construct(private $config = [])
     {
         isset($config['address']) && $this->address = (string)$config['address'];
         $this->driver = isset($config['driver']) ? $config['driver'] : make(DefaultDriver::class);
@@ -28,14 +26,14 @@ final class Config
      */
     public function getAddress(): string
     {
-        return rtrim($this->address, '/');
+        return rtrim((string)($this->config['address'] ?? ''), '/');
     }
 
     /**
      * @return mixed
      */
-    public function driver(): DriverInterface
+    public function driver(): ProviderInterface
     {
-        return $this->driver instanceof DriverInterface ?$this->driver:make($this->driver);
+        return $config['driver'];
     }
 }
