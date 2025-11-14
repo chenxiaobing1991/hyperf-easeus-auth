@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Cxb\Hyperf\Easeus\Auth\Provider\v2;
+namespace Cxb\Hyperf\Easeus\Auth\Driver\v2;
 
 
 use Cxb\Hyperf\Easeus\Auth\AbstractDriver;
@@ -9,7 +9,7 @@ use Cxb\Hyperf\Easeus\Auth\AbstractDriver;
 /**
  * 权限模块
  * Class PermissionDriver
- * @package Cxb\Hyperf\Easeus\Auth\Provider\v2
+ * @package Cxb\Hyperf\Easeus\Auth\Driver\v2
  */
 class PermissionDriver extends AbstractDriver
 {

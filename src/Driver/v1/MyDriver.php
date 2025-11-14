@@ -1,14 +1,14 @@
 <?php
 
 
-namespace Cxb\Hyperf\Easeus\Auth\Provider\v1;
+namespace Cxb\Hyperf\Easeus\Auth\Driver\v1;
 
 
 use Cxb\Hyperf\Easeus\Auth\AbstractDriver;
 
 /**
  * Class MyDriver
- * @package Cxb\Hyperf\Easeus\Auth\Provider\v1
+ * @package Cxb\Hyperf\Easeus\Auth\Driver\v1
  */
 class MyDriver extends AbstractDriver
 {
