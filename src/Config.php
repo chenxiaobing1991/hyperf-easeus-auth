@@ -34,6 +34,6 @@ final class Config
      */
     public function driver(): ProviderInterface
     {
-        return $config['driver'];
+        return $this->config['driver'];
     }
 }
