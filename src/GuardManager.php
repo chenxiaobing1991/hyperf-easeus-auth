@@ -5,10 +5,10 @@ namespace Cxb\Hyperf\Easeus\Auth;
 
 
 use Cxb\Hyperf\Easeus\Auth\Driver\DriverInterface;
-use Cxb\Hyperf\Easeus\Auth\Provider\v2\MyDriver;
+use Cxb\Hyperf\Easeus\Auth\Driver\v2\MyDriver;
 use Cxb\Hyperf\Easeus\Auth\Driver\v2\UserDriver;
-use Cxb\Hyperf\Easeus\Auth\Provider\v2\PermissionDriver;
-use Cxb\Hyperf\Easeus\Auth\Provider\v2\RoleDriver;
+use Cxb\Hyperf\Easeus\Auth\Driver\v2\PermissionDriver;
+use Cxb\Hyperf\Easeus\Auth\Driver\v2\RoleDriver;
 use function Hyperf\Support\make;
 
 /**
