@@ -28,6 +28,6 @@ class RoleDriver extends AbstractDriver
      */
     public function list(array $map = [])
     {
-        return $this->request('/api/v2/base/role/list?' . http_build_query($map), 'get');
+        return $this->request('/api/v2/base/role/role-list?' . http_build_query($map), 'get');
     }
 }
