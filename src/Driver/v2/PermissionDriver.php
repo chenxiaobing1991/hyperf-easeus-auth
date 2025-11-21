@@ -37,6 +37,14 @@ class PermissionDriver extends AbstractDriver
      */
     public function roles()
     {
-       return  $this->request('/api/v2/permission/roles', 'GET');
+        return $this->request('/api/v2/permission/roles', 'GET');
+    }
+
+    /**
+     * @param mixed $user_id
+     */
+    public function userRoles(mixed $user_id)
+    {
+        return $this->request('/api/v2/permission/user-role/list?user_id=' . $user_id, 'GET');
     }
 }
