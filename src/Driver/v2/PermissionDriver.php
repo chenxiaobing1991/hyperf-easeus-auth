@@ -37,7 +37,7 @@ class PermissionDriver extends AbstractDriver
     public function roles($user_id, array $map = [])
     {
         $map['user_id'] = $user_id;
-        $list = $this->request('api/v2/permission/user-role/role-tree?' . http_build_query($map), 'GET');
+        $list = $this->request('/api/v2/permission/user-role/role-tree?' . http_build_query($map), 'GET');
         $result = [];
         foreach ($list as $info) {
             $appKey = $info['app_key'] ?? '';
