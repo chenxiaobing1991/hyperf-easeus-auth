@@ -26,7 +26,7 @@ class PermissionDriver extends AbstractDriver
      * 权限菜单
      * @return array
      */
-    public function menus(): ?array
+    public function menus()
     {
         return $this->request('/api/v2/permission/menus', 'GET');
     }
