@@ -32,20 +32,11 @@ class PermissionDriver extends AbstractDriver
     }
 
     /**
-     * 获取角色列表
+     * 我的角色
+     * @return mixed|null
      */
-    public function roles($user_id, array $map = [])
+    public function roles()
     {
-        $map['user_id'] = $user_id;
-        $list = $this->request('/api/v2/permission/user-role/role-tree?' . http_build_query($map), 'GET');
-        $result = [];
-        foreach ($list as $info) {
-            $appKey = $info['app_key'] ?? '';
-            foreach ($info['children'] ?? [] as $child) {
-                if (($child['selected'] ?? false))
-                    $result[] = $child;
-            }
-        }
-        return $result;
+       return  $this->request('/api/v2/permission/roles', 'GET');
     }
 }
