@@ -9,6 +9,7 @@ use Cxb\Hyperf\Easeus\Auth\Driver\v2\MyDriver;
 use Cxb\Hyperf\Easeus\Auth\Driver\v2\UserDriver;
 use Cxb\Hyperf\Easeus\Auth\Driver\v2\PermissionDriver;
 use Cxb\Hyperf\Easeus\Auth\Driver\v2\RoleDriver;
+use Cxb\Hyperf\Easeus\Auth\Driver\v2\UserRoleDriver;
 use function Hyperf\Support\make;
 
 /**
@@ -22,7 +23,8 @@ final class GuardManager
         'self' => MyDriver::class,
         'user' => UserDriver::class,
         'role' => RoleDriver::class,
-        'permission' => PermissionDriver::class
+        'permission' => PermissionDriver::class,
+        'user_role' => UserRoleDriver::class
     ];
     protected $providers = [];
 
