@@ -16,7 +16,7 @@ class UserDriver extends AbstractDriver
      */
     public function info($id)
     {
-        return $this->request('/api/v2/base/user/info?' . http_build_query(['id' => $id]), 'get');
+        return $this->request('/api/v2/base/user/info?' . http_build_query(['user_id' => $id]), 'get');
     }
 
 
