@@ -19,7 +19,7 @@ class PermissionDriver extends AbstractDriver
      */
     public function users(array $map = [])
     {
-        return $this->request('/api/v2/permission/role-user/list', 'GET');
+        return $this->request('/api/v2/permission/role-user/list?'.http_build_query($map), 'GET');
     }
 
     /**
