@@ -34,7 +34,7 @@ final class Config
     public function driver(): ProviderInterface
     {
         $driver = $this->get('driver');
-        return $driver instanceof ProviderInterface ? $driver : make(DefaultProvider::class);
+        return $driver instanceof ProviderInterface ? $driver : make(DefaultProvider::class,['config'=>$this]);
     }
 
     /**
