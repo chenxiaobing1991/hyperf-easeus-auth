@@ -55,5 +55,10 @@ final class GuardManager
         return $this->get($name);
     }
 
+    public function config(): Config
+    {
+        return $this->config;
+    }
+
 
 }
