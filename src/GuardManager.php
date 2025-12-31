@@ -26,7 +26,7 @@ final class GuardManager
         'permission' => PermissionDriver::class,
         'user_role' => UserRoleDriver::class
     ];
-    protected $providers = [];
+    protected $drivers = [];
 
     public function __construct(private Config $config)
     {
@@ -37,12 +37,12 @@ final class GuardManager
      */
     public function get(string $name)
     {
-        if (isset($this->providers[$name]))
-            return $this->providers[$name];
+        if (isset($this->drivers[$name]))
+            return $this->drivers[$name];
         $class_name = class_exists($name) ? $name : (isset($this->alias[$name]) ? $this->alias[$name] : null);
         if (!$class_name)
             throw new \Exception('不存在的引擎');
-        return $this->providers[$name] = make($class_name, ['app' => $this, 'config' => $this->config]);
+        return $this->drivers[$name] = make($class_name, ['app' => $this, 'config' => $this->config]);
     }
 
     /**

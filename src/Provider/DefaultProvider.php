@@ -12,7 +12,7 @@ use Hyperf\Stringable\Str;
  * Class DefaultProvider
  * @package Cxb\Hyperf\Easeus\Auth\Provider
  */
-class DefaultProvider extends AbstractProvider
+class DefaultProvider implements ProviderInterface
 {
     protected mixed $headerName = 'Authorization';
     #[Inject]
@@ -32,7 +32,7 @@ class DefaultProvider extends AbstractProvider
 
     public function parseAppKey(): string
     {
-        return $this->config->getAppKey();
+        return '';
     }
 
     public function parseAccessToken(): string

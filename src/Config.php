@@ -31,10 +31,10 @@ final class Config
     /**
      * @return mixed
      */
-    public function driver(): ProviderInterface
+    public function provider(): ProviderInterface
     {
         $driver = $this->get('driver');
-        return $driver instanceof ProviderInterface ? $driver : make(DefaultProvider::class,['config'=>$this]);
+        return $driver instanceof ProviderInterface ? $driver : make(DefaultProvider::class);
     }
 
     /**
@@ -42,7 +42,24 @@ final class Config
      */
     public function getAppKey(): string
     {
-        return $this->get('app_key');
+        $provider = $this->provider();
+        return (string)(!empty($provider->parseAppKey()) ? $provider->parseAppKey() : $this->get('app_key'));
+    }
+
+    /**
+     * @return string
+     */
+    public function parseToken(): string
+    {
+        return (string)$this->provider()->parseToken();
+    }
+
+    /**
+     * @return string
+     */
+    public function parseAccessToken(): string
+    {
+        return (string)$this->provider()->parseAccessToken();
     }
 
     /**

@@ -41,11 +41,10 @@ abstract class AbstractDriver
      */
     protected function request(string $uri, $method, $params = null, array $header = [])
     {
-
         $header = array_merge([
-            'Authorization' => 'Bearer ' . $this->config->driver()->parseToken(),
-            'app-key' => $this->config->driver()->parseAppKey(),
-            'AccessToken' => $this->config->driver()->parseAccessToken()
+            'Authorization' => 'Bearer ' . $this->config->parseToken(),
+            'app-key' => $this->config->getAppKey(),
+            'AccessToken' => $this->config->parseAccessToken()
         ], $header);
         $request = new RequestClient($method, $this->config->getAddress() . $uri, is_array($params) ? json_encode($params, true) : $params, $header);
         return $this->handleResponse(ClientFactory::send($request));
